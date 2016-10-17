@@ -3,7 +3,7 @@
 namespace VkApi
 {
     [DataContract]
-    class ContentPostReaction
+    public class ContentPostReaction
     {
         [DataMember(Name = "count")] 
         public int count;

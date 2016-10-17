@@ -23,19 +23,27 @@ namespace VkApi
             //VkApi.SetVkAccessToken(Console.ReadLine());
             /*---------------------------------------------------------------------*/
 
-            VkApi.SetVkAccessToken("b612f72eeee25f23c7d3ecdfcfd0d56ac2ec111f2dfbc505518b97d30416b104f83d9e68c6c2962464465");
+            VkApi.SetVkAccessToken("13a4f4cedd44593c2d511a5e693fd956b148ba7385b83d7e92cb36cdab4100b8331836ee2998bf01e9b4c");
 
 
             // Получение стены пользователя по идентификатору
-            //List<ContentPost> mikhailtarrasov = VkApi.GetWall(59281711.ToString());
+            // List<ContentPost> mikhailtarrasov = VkApi.GetWall(59281711.ToString());
 
+            //VkUser user = new VkUser(VkApi.GetUserByUsername("mikhailtarrasov").response.items[0]);
 
             Stopwatch timeGetMembersFriends = new Stopwatch();  /* Старт секундомера */
             timeGetMembersFriends.Start();                      /* составления графа */
 
             String groupName = "csu_iit";
-            List<VkUser> groupMembersList = VkApi.GetGroupMembersGraph(groupName);
-            groupMembersList[528].GetNews();
+            //List<VkUser> groupMembersList = VkApi.GetGroupMembersGraph(groupName);
+            //groupMembersList[528].GetNews();
+
+            VkUser user = VkApi.GetUserByUsername("maxim_kosenko");
+            user.SetFriends(VkApi.GetFriends(user.id.ToString()));
+
+            List<ContentPost> listNews = Class.GetNews(user);
+            Console.WriteLine("Количество постов в списке: " + listNews.Count);
+
 
             // TODO sort ListNews  
             //groupMebersList[528].GetNews().Sort(delegate(VkApiResponse<ContentPost> x, VkApiResponse<ContentPost> y)
@@ -45,7 +53,7 @@ namespace VkApi
 
             /*---------------------------------------------------------------------*/
             timeGetMembersFriends.Stop();
-            Console.WriteLine("RunTime " + FormatTime(timeGetMembersFriends));
+            Console.WriteLine("Время работы: " + FormatTime(timeGetMembersFriends));
             /*---------------------------------------------------------------------*/
 
 

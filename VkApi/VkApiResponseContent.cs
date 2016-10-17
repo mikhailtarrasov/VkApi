@@ -3,7 +3,7 @@
 namespace VkApi
 {
     [DataContract]
-    class VkApiResponseContent<T>
+    public class VkApiResponseContent<T>
     {
         [DataMember(Name = "count")]
         public int count;

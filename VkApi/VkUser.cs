@@ -2,12 +2,12 @@
 
 namespace VkApi
 {
-    class VkUser : ContentUser
+    public class VkUser : ContentUser
     {
         private List<VkUser> friends;
 
         public VkUser(ContentUser contentUser)
-        {
+        {   
             id = contentUser.id;
             first_name = contentUser.first_name;
             last_name = contentUser.last_name;
@@ -38,30 +38,6 @@ namespace VkApi
         public List<VkUser> GetFriendsList()
         {
             return friends;
-        }
-
-        public List<ContentPost> GetNews()
-        {
-            List<ContentPost> friendNews = null;
-            if (friends != null)
-            {
-                friendNews = new List<ContentPost>();
-                List<ContentPost> newsList = new List<ContentPost>();
-                foreach (VkUser friend in friends)
-                {
-                    List<ContentPost> friendWall = VkApi.GetWall(friend.id.ToString());
-                    if (friendWall != null)
-                    {
-                        foreach (ContentPost post in friendWall)
-                        {
-                            friendNews.Add(post);
-                        }
-                    }
-                }
-                return newsList;
-            }
-            
-            return friendNews;
         }
     }
 }

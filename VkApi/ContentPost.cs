@@ -3,7 +3,7 @@
 namespace VkApi
 {
     [DataContract]
-    class ContentPost
+    public class ContentPost
     {
         [DataMember(Name = "id")]
         public int id;

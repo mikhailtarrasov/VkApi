@@ -15,7 +15,7 @@ using System.Threading;
 
 namespace VkApi
 {
-    class VkApi
+    public class VkApi
     {
         public const int client_id = 5658746;
         public const string redirect_uri = "https://oauth.vk.com/blank.html";
@@ -62,7 +62,7 @@ namespace VkApi
             return ParseResponse<VkApiResponse<ContentUser>>(json);
         }
 
-        private static VkApiResponse<ContentUser> GetFriends(String userId)
+        public static VkApiResponse<ContentUser> GetFriends(String userId)
         {
             Hashtable parameters = new Hashtable();
             parameters.Add("user_id", userId);
@@ -70,6 +70,16 @@ namespace VkApi
             String json = SendRequest("friends.get", parameters);
             json = Program.UTF8ToWin1251(json);
             return ParseResponse<VkApiResponse<ContentUser>>(json);
+        }
+
+        public static VkUser GetUserByUsername(String username)
+        {
+            Hashtable parameters = new Hashtable();
+            parameters.Add("user_ids", username);
+            parameters.Add("fields", "photo_50");
+            String json = SendRequest("users.get", parameters);
+            json = Program.UTF8ToWin1251(json);
+            return new VkUser(ParseResponse<VkApiResponse>(json).response[0]);
         }
 
         private static VkApiResponse<ContentPost> Get100Posts(String ownerId, int offset, int count)
@@ -103,17 +113,20 @@ namespace VkApi
                 int i = resp.response.count;
                 while (i > 0)
                 {
-                    foreach (ContentPost post in resp.response.items)
-                    {
-                        postsList.Add(post);
-                    }
+                    Thread.Sleep(330);
+                    if (resp.response != null) { 
+                        foreach (ContentPost post in resp.response.items)
+                        {
+                            postsList.Add(post);
+                        }
 
-                    if (i > 100)
-                    {
-                        offset += 100;
-                        resp = Get100Posts(ownerId, offset, count);
+                        if (i > 100)
+                        {
+                            offset += 100;
+                            resp = Get100Posts(ownerId, offset, count);
+                        }
+                        i -= 100;
                     }
-                    i -= 100;
                 }
 
                 return postsList;
